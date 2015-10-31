@@ -263,14 +263,35 @@ public class TreeMap {
      *
      * Return a pair of values: h described above and the actual
      * split ratio: the double value
-     *            (weight of b[m..k]) / (weight of b[m..n]).
+     *            (weight of b[m..h]) / (weight of b[m..n]).
      *
      * Precondition: m < n and b[m..n] is in descending order by weight. */
     public static Wrapper2 getSplit(List<Node> b, int m, int n) {
         assert m < n;
         // TODO 2. This is the second method to implement.
         
-        return null;
+        System.out.println(b.toString());
+        System.out.println(b.size());
+        System.out.println("M "+m);
+        System.out.println("N "+n);
+        
+        Double totalWeight = 0.0;
+        for(int i=m; i<=n; i++)
+        	totalWeight += b.get(i).weight;
+        
+        if(totalWeight<0)
+        	return new Wrapper2((m + n)/2, 0.5);
+        
+        Double currentWeight = 0.0;
+        int h = m;
+        for(h=m; h<n; h++){
+        	if(currentWeight >= (0.4*totalWeight))
+        		break;
+        	currentWeight += b.get(h).weight;
+        }
+        
+        System.out.println("Splitting at index "+(h-1));
+        return new Wrapper2(h-1, currentWeight/totalWeight);
     }
 
     /** Recursively lay out nodes in sorted array b[m..n] as a flat
@@ -308,7 +329,7 @@ public class TreeMap {
         //        For b[m..n] of size 1, store a new block in the block
         //        field of b[m] with color Color(0, 0, 127).
         
-        // (c) Store in k the smallest value that satisfies one of the following
+        // (c) Store in k the smallest value that satisfies both of the following
         //     two conditions:
         //  (1) m <= k < n  (note: b[m..k] and b[k+1..n]
         //                  each contains at least 1 value)
@@ -323,9 +344,48 @@ public class TreeMap {
         // (e) Recursively allocate nodes b[m..k] in the split-off part,
         //     and nodes b[k+1..n] in the rest of the rectangle.
         
-        for (int i= m; i <= n; i= i+1) {
-            b.get(i).block= new Block(bbox, new Color(0, 0, 127));
-        }
+    	
+    	System.out.println("\nCurrent size in slice and dice "+(n-m+1));
+    	if(n - m + 1 == 0){
+    		System.out.println("Size is now 0");
+    		return;
+    	}
+    	
+    	else if(n - m + 1 == 1) {
+    		System.out.println("Size is 1. Assigning a block");
+    		b.get(m).block = new Block(bbox, new Color(0, 0, 127));
+    		return;
+    	}
+    		
+    	else{
+    		Wrapper2 splitter = getSplit(b, m, n);
+    		BoundingBox left = new BoundingBox(bbox);
+    		BoundingBox right = new BoundingBox(bbox);	
+    		
+    		if(w * bbox.getWidth() >= h * bbox.getHeight()){
+    			System.out.println("Splitting across the width at "+splitter.d);
+        		left.high.x = w * splitter.d;
+        		right.low.x = w * splitter.d;
+        		
+        		sliceAndDice(b, m, splitter.k, left, w, h);
+        		sliceAndDice(b, splitter.k+1, n, right, w, h);
+        	}
+    		else{
+    			System.out.println("Splitting across the height");
+    			left.high.y = h * splitter.d;
+        		right.low.y = h * splitter.d;
+        		
+        		sliceAndDice(b, m, splitter.k, left, w, h);
+        		sliceAndDice(b, splitter.k+1, n, right, w, h);
+    		}
+    	}
+    	
+    	
+    	
+        //Default implementation
+    	//for (int i= m; i <= n; i= i+1) {
+           //b.get(i).block= new Block(bbox, new Color(0, 0, 127));
+        //}
     }
 
     /** An instance wraps an int and a double. */
