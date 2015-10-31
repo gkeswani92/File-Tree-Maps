@@ -352,8 +352,9 @@ public class TreeMap {
     	}
     	
     	else if(n - m + 1 == 1) {
-//    		System.out.println("Size is 1. Assigning a block");
+    		System.out.println("Size is 1. Assigning a block to "+b.get(m).toString());
     		b.get(m).block = new Block(bbox, new Color(0, 0, 127));
+    		System.out.println("Size is 1. Assigned a block to "+b.get(m).toString());
     		return;
     	}
     		
@@ -364,28 +365,26 @@ public class TreeMap {
     		
     		if(w * bbox.getWidth() >= h * bbox.getHeight()){
 //    			System.out.println("Splitting across the width at "+splitter.d);
-        		left.high.x = w * splitter.d;
-        		right.low.x = w * splitter.d;
+        		left.high.x = w * splitter.d / w;
+        		right.low.x = w * splitter.d / w;
         		
         		sliceAndDice(b, m, splitter.k, left, w, h);
         		sliceAndDice(b, splitter.k+1, n, right, w, h);
         	}
     		else{
 //    			System.out.println("Splitting across the height");
-    			left.high.y = h * splitter.d;
-        		right.low.y = h * splitter.d;
+    			left.low.y = h * splitter.d / h;
+        		right.high.y = h * splitter.d / h;
         		
         		sliceAndDice(b, m, splitter.k, left, w, h);
         		sliceAndDice(b, splitter.k+1, n, right, w, h);
     		}
     	}
     	
-    	
-    	
         //Default implementation
-    	for (int i= m; i <= n; i= i+1) {
-           b.get(i).block= new Block(bbox, new Color(0, 0, 127));
-        }
+    	//for (int i= m; i <= n; i= i+1) {
+        //   b.get(i).block= new Block(bbox, new Color(0, 0, 127));
+        //}
     }
 
     /** An instance wraps an int and a double. */
