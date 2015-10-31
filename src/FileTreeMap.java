@@ -125,7 +125,23 @@ public class FileTreeMap extends TreeMap {
         // This is your first method to write and test.
         // For more info on class File, see Piazza note @666.
         // TODO 1. Replace the following statement by your code
+    	assert d>=0;
+    	
+        if(f == null)
+        	return 0;
         
+        else if(f.isFile())
+        	return f.length();
+        
+        else{
+        	if (d == 0)
+        		return 4000;
+        	else if (f.listFiles() == null)
+        		return 4000;
+        	else
+        		for(File f_inner: f.listFiles())
+        			return 4*1000 + size(d--, f_inner);
+        }
         return 0;
     }
 }
