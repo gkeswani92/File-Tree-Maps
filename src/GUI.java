@@ -200,8 +200,22 @@ public class GUI extends JFrame implements ActionListener {
         //     and return
         // (c) If decrease button was clicked, recompute the tree with depth d-1
         //     (but don't let the depth get < 1) and return.
+        //Integer d = depthOfTreemap.get;
         
+    	FileTreeMap ftm = (FileTreeMap)treeView.getTreeMap();
+        Integer d = ftm.getMaxDepth();
+        System.out.println("Current depth is "+d);
         
+        if(e.getActionCommand().equals("Decrease depth")){
+        	System.out.println("Decrease depth");
+        	if(d > 1)
+        	    this.recomputeTreeMap(d-1);
+        }
+        else{
+        	System.out.println("Increase depth");
+            this.recomputeTreeMap(d+1);
+        }
+    	    
     }
 
     /** An instance has a method mouseClicked that will respond to clicks in the
@@ -214,12 +228,18 @@ public class GUI extends JFrame implements ActionListener {
             // Look at Piazza note @665 for some help.
 
             // (a) Store the image coordinates of the clicked point in local variable v.
-           
+            Point v = e.getPoint();
+            PointD point = new PointD(v.getX()/TREEMAP_WIDTH, v.getY()/TREEMAP_HEIGHT);
+            System.out.println(point);
+        	
             // (b) Get the treemap as a FileTreeMap
-
+            FileTreeMap ftm = (FileTreeMap)treeView.getTreeMap();
+            
             // (c) Find the node corresponding to the clicked point v.
-
+            FileTreeMap.Node node = ftm.getNodeContaining(point);
+            
             // (d) Select the file corresponding to the node in the fileTree.
+            fileTree.select(ftm.getFile(node));
         }
     }
 }

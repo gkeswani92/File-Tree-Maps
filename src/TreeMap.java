@@ -270,11 +270,11 @@ public class TreeMap {
         assert m < n;
         // TODO 2. This is the second method to implement.
         
-        System.out.println(b.toString());
-        System.out.println(b.size());
-        System.out.println("M "+m);
-        System.out.println("N "+n);
-        
+//        System.out.println(b.toString());
+//        System.out.println(b.size());
+//        System.out.println("M "+m);
+//        System.out.println("N "+n);
+//        
         Double totalWeight = 0.0;
         for(int i=m; i<=n; i++)
         	totalWeight += b.get(i).weight;
@@ -290,7 +290,7 @@ public class TreeMap {
         	currentWeight += b.get(h).weight;
         }
         
-        System.out.println("Splitting at index "+(h-1));
+//        System.out.println("Splitting at index "+(h-1));
         return new Wrapper2(h-1, currentWeight/totalWeight);
     }
 
@@ -345,14 +345,14 @@ public class TreeMap {
         //     and nodes b[k+1..n] in the rest of the rectangle.
         
     	
-    	System.out.println("\nCurrent size in slice and dice "+(n-m+1));
+//    	System.out.println("\nCurrent size in slice and dice "+(n-m+1));
     	if(n - m + 1 == 0){
-    		System.out.println("Size is now 0");
+//    		System.out.println("Size is now 0");
     		return;
     	}
     	
     	else if(n - m + 1 == 1) {
-    		System.out.println("Size is 1. Assigning a block");
+//    		System.out.println("Size is 1. Assigning a block");
     		b.get(m).block = new Block(bbox, new Color(0, 0, 127));
     		return;
     	}
@@ -363,7 +363,7 @@ public class TreeMap {
     		BoundingBox right = new BoundingBox(bbox);	
     		
     		if(w * bbox.getWidth() >= h * bbox.getHeight()){
-    			System.out.println("Splitting across the width at "+splitter.d);
+//    			System.out.println("Splitting across the width at "+splitter.d);
         		left.high.x = w * splitter.d;
         		right.low.x = w * splitter.d;
         		
@@ -371,7 +371,7 @@ public class TreeMap {
         		sliceAndDice(b, splitter.k+1, n, right, w, h);
         	}
     		else{
-    			System.out.println("Splitting across the height");
+//    			System.out.println("Splitting across the height");
     			left.high.y = h * splitter.d;
         		right.low.y = h * splitter.d;
         		
@@ -383,9 +383,9 @@ public class TreeMap {
     	
     	
         //Default implementation
-    	//for (int i= m; i <= n; i= i+1) {
-           //b.get(i).block= new Block(bbox, new Color(0, 0, 127));
-        //}
+    	for (int i= m; i <= n; i= i+1) {
+           b.get(i).block= new Block(bbox, new Color(0, 0, 127));
+        }
     }
 
     /** An instance wraps an int and a double. */
