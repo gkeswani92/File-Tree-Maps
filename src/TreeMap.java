@@ -269,12 +269,7 @@ public class TreeMap {
     public static Wrapper2 getSplit(List<Node> b, int m, int n) {
         assert m < n;
         // TODO 2. This is the second method to implement.
-        
-//        System.out.println(b.toString());
-//        System.out.println(b.size());
-//        System.out.println("M "+m);
-//        System.out.println("N "+n);
-//        
+
         Double totalWeight = 0.0;
         for(int i=m; i<=n; i++)
         	totalWeight += b.get(i).weight;
@@ -290,7 +285,6 @@ public class TreeMap {
         	currentWeight += b.get(h).weight;
         }
         
-//        System.out.println("Splitting at index "+(h-1));
         return new Wrapper2(h-1, currentWeight/totalWeight);
     }
 
@@ -344,22 +338,17 @@ public class TreeMap {
         // (e) Recursively allocate nodes b[m..k] in the split-off part,
         //     and nodes b[k+1..n] in the rest of the rectangle.
         
-//    	  
-//    	for(int i=0; i<b.size()-1; i++){
-//    		assert b.get(i).weight > b.get(i+1).weight;
-//    		System.out.println(b.get(i).weight);
-//    	}
-    	
-    	System.out.println("\nCurrent size in slice and dice "+(n-m+1));
-    	if(n - m + 1 == 0){
-   		System.out.println("Size is now 0");
-    		return;
+  
+    	for(int i=0; i<b.size()-1; i++){
+    		assert b.get(i).weight > b.get(i+1).weight;
     	}
     	
-    	else if(n - m + 1 == 1) {
-    		System.out.println("Size is 1. Assigning a block to "+b.get(m).toString());
+    	if(n - m + 1 == 0){
+   			return;
+    	}
+    	
+    	else if(n == m) {
     		b.get(m).block = new Block(bbox, new Color(0, 0, 127));
-    		System.out.println("Size is 1. Assigned a block to "+b.get(m).toString());
     		return;
     	}
     		
@@ -369,33 +358,20 @@ public class TreeMap {
     		BoundingBox right = new BoundingBox(bbox);	
     		
     		if(w * bbox.getWidth() >= h * bbox.getHeight()){
-   			System.out.println("Splitting across the width at "+splitter.d);
-        		left.high.x = left.low.x + ((left.high.x - left.low.x) * splitter.d);
+    			left.high.x = left.low.x + ((left.high.x - left.low.x) * splitter.d);
         		right.low.x = right.high.x - ((right.high.x - right.low.x) * (1 - splitter.d));
-        		
-        		System.out.println("Coordinates of left are ("+left.low.x+","+left.low.y+"),("+left.high.x+","+left.high.y);
-        		System.out.println("Coordinates of right are ("+right.low.x+","+right.low.y+"),("+right.high.x+","+right.high.y);
         		
         		sliceAndDice(b, m, splitter.k, left, w, h);
         		sliceAndDice(b, splitter.k+1, n, right, w, h);
         	}
     		else{
-    			System.out.println("Splitting across the height at "+splitter.d);
     			left.high.y = left.high.y - ((left.high.y - left.low.y) * (1 - splitter.d));
-        		right.low.y = right.low.y + ((left.high.y - left.low.y) * splitter.d);
-        		
-        		System.out.println("Coordinates of left are ("+left.low.x+","+left.low.y+"),("+left.high.x+","+left.high.y);
-        		System.out.println("Coordinates of right are ("+right.low.x+","+right.low.y+"),("+right.high.x+","+right.high.y);
+        		right.low.y = right.low.y + ((right.high.y - right.low.y) * splitter.d);
         		
         		sliceAndDice(b, m, splitter.k, left, w, h);
         		sliceAndDice(b, splitter.k+1, n, right, w, h);
     		}
     	}
-    	
-        //Default implementation
-    	//for (int i= m; i <= n; i= i+1) {
-        //   b.get(i).block= new Block(bbox, new Color(0, 0, 127));
-        //}
     }
 
     /** An instance wraps an int and a double. */
