@@ -1,8 +1,10 @@
-/* Time spent:  hh hours and mm minutes.
+/* Time spent:  08 hours and 00 minutes.
  *
- * Name:
- * Netid: 
- * What I thought about this assignment:
+ * Name: Gaurav Keswani
+ * Netid: gk368
+ * What I thought about this assignment: Did not spend enough time understanding it
+ * due to other work load. But interesting output and would have loved to learn more about this.
+ * Will go through the entire codebase later.
  *
  *
  */
