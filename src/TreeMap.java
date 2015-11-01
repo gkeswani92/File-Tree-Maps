@@ -344,10 +344,15 @@ public class TreeMap {
         // (e) Recursively allocate nodes b[m..k] in the split-off part,
         //     and nodes b[k+1..n] in the rest of the rectangle.
         
+//    	  
+//    	for(int i=0; i<b.size()-1; i++){
+//    		assert b.get(i).weight > b.get(i+1).weight;
+//    		System.out.println(b.get(i).weight);
+//    	}
     	
-//    	System.out.println("\nCurrent size in slice and dice "+(n-m+1));
+    	System.out.println("\nCurrent size in slice and dice "+(n-m+1));
     	if(n - m + 1 == 0){
-//    		System.out.println("Size is now 0");
+   		System.out.println("Size is now 0");
     		return;
     	}
     	
@@ -364,17 +369,23 @@ public class TreeMap {
     		BoundingBox right = new BoundingBox(bbox);	
     		
     		if(w * bbox.getWidth() >= h * bbox.getHeight()){
-//    			System.out.println("Splitting across the width at "+splitter.d);
-        		left.high.x = w * splitter.d / w;
-        		right.low.x = w * splitter.d / w;
+   			System.out.println("Splitting across the width at "+splitter.d);
+        		left.high.x = left.low.x + ((left.high.x - left.low.x) * splitter.d);
+        		right.low.x = right.high.x - ((right.high.x - right.low.x) * (1 - splitter.d));
+        		
+        		System.out.println("Coordinates of left are ("+left.low.x+","+left.low.y+"),("+left.high.x+","+left.high.y);
+        		System.out.println("Coordinates of right are ("+right.low.x+","+right.low.y+"),("+right.high.x+","+right.high.y);
         		
         		sliceAndDice(b, m, splitter.k, left, w, h);
         		sliceAndDice(b, splitter.k+1, n, right, w, h);
         	}
     		else{
-//    			System.out.println("Splitting across the height");
-    			left.low.y = h * splitter.d / h;
-        		right.high.y = h * splitter.d / h;
+    			System.out.println("Splitting across the height at "+splitter.d);
+    			left.high.y = left.high.y - ((left.high.y - left.low.y) * (1 - splitter.d));
+        		right.low.y = right.low.y + ((left.high.y - left.low.y) * splitter.d);
+        		
+        		System.out.println("Coordinates of left are ("+left.low.x+","+left.low.y+"),("+left.high.x+","+left.high.y);
+        		System.out.println("Coordinates of right are ("+right.low.x+","+right.low.y+"),("+right.high.x+","+right.high.y);
         		
         		sliceAndDice(b, m, splitter.k, left, w, h);
         		sliceAndDice(b, splitter.k+1, n, right, w, h);

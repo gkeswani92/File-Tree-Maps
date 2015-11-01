@@ -229,8 +229,9 @@ public class GUI extends JFrame implements ActionListener {
 
             // (a) Store the image coordinates of the clicked point in local variable v.
             Point v = e.getPoint();
+            System.out.println(v.toString());
             PointD point = new PointD(v.getX()/TREEMAP_WIDTH, v.getY()/TREEMAP_HEIGHT);
-            System.out.println(point);
+            System.out.println(point.toString());
         	
             // (b) Get the treemap as a FileTreeMap
             FileTreeMap ftm = (FileTreeMap)treeView.getTreeMap();
